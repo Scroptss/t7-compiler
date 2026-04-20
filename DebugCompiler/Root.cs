@@ -32,8 +32,8 @@ namespace DebugCompiler
         private delegate int CommandHandler(string[] args, string[] opts);
         private Dictionary<ConsoleKey, CommandInfo> CommandTable = new Dictionary<ConsoleKey, CommandInfo>();
         private bool ClearHistory = false;
-        private static string UpdatesURL = "https://gsc.dev/t7c_version";
-        private static string UpdaterURL = "https://gsc.dev/t7c_updater";
+        private static string UpdatesURL = "https://raw.githubusercontent.com/Scroptss/t7-compiler/master/version";
+        private static string UpdaterURL = "https://raw.githubusercontent.com/Scroptss/t7-compiler/master/update.zip";
         private static string motdpath => Path.Combine(Application.StartupPath, "motd");
         private const int motdHrsRemindClear = 4; // number of hours between reminding users about the message of the day.
         private static string T7ProcessName = "blackops3";
@@ -898,7 +898,7 @@ namespace DebugCompiler
             bo3.OpenHandle();
             bo3.SetDefaultCallType(ExCallThreadType.XCTT_QUAPC);
             OriginalPID = bo3.BaseProcess.Id;
-            PointerEx off = IsWindowsStore ? 0xF3B1330 : 0x9407AB0;
+            PointerEx off = IsWindowsStore ? 0xF3B1330 : 0x9388AB0;
             Console.WriteLine($"s_assetPool:ScriptParseTree => {bo3["blackops3.exe"][off]}");
             var sptGlob = bo3.GetValue<ulong>(bo3["blackops3.exe"][off]);
             var sptCount = bo3.GetValue<int>(bo3["blackops3.exe"][off + 0x14]);

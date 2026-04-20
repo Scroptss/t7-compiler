@@ -18,7 +18,7 @@ namespace t7c_installer
 #if DEBUG
         private const bool NoErrorHandling = false;
 #endif
-        private static string PackageURL = "https://gsc.dev/t7c_package";
+        private static string PackageURL = "https://raw.githubusercontent.com/Scroptss/t7-compiler/master/update.zip";
         internal static bool IsUpdating = false;
         private const string InstallRoot = @"C:\";
         private static string UpdateTempFilename => Path.Combine(Path.GetTempPath(), "t7c_update.zip");

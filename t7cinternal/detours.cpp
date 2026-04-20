@@ -141,16 +141,16 @@ INT64 Sentient_GetFunction(INT32 a1, INT32* a2, INT32* a3)
 	__int64 v6; // rax
 
 	v3 = 0ll;
-	for (INT32* i = (INT32*)REBASE(0x333E320, 0x3131F50); a1 != *i; i += 8)
+	for (INT32* i = (INT32*)REBASE(0x32BF320, 0x3131F50); a1 != *i; i += 8)
 	{
 		v3 = (v3 + 1);
 		if (v3 >= 8)
 			return 0ll;
 	}
 	v6 = 8 * v3;
-	*a2 = ((INT32*)REBASE(0x333E320, 0x3131F50))[v6 + 1];
-	*a3 = ((INT32*)REBASE(0x333E320, 0x3131F50))[v6 + 2];
-	return *(INT64*)(&((INT32*)REBASE(0x333E320, 0x3131F50))[v6 + 4]);
+	*a2 = ((INT32*)REBASE(0x32BF320, 0x3131F50))[v6 + 1];
+	*a3 = ((INT32*)REBASE(0x32BF320, 0x3131F50))[v6 + 2];
+	return *(INT64*)(&((INT32*)REBASE(0x32BF320, 0x3131F50))[v6 + 4]);
 }
 
 INT64 Scr_GetFunction_(INT32 canonID, INT32* type, INT32* min_args, INT32* max_args)
@@ -161,16 +161,16 @@ INT64 Scr_GetFunction_(INT32 canonID, INT32* type, INT32* min_args, INT32* max_a
 	result = Sentient_GetFunction(canonID, min_args, max_args);
 	if (!result)
 	{
-		for (INT32* i = ((INT32*)REBASE(0x3347C00, 0x313A3A0)); canonID != *i; i += 8)
+		for (INT32* i = ((INT32*)REBASE(0x32C8C00, 0x313A3A0)); canonID != *i; i += 8)
 		{
 			if (++count >= 0x150)
-				return ((INT64(__fastcall*)(INT32, INT32*, INT32*, INT32*))REBASE(0x1A79EB0, 0x1B5B1C0))(canonID, type, min_args, max_args); // Scr_GetCommonFunction
+				return ((INT64(__fastcall*)(INT32, INT32*, INT32*, INT32*))REBASE(0x1A6DAE0, 0x1B5B1C0))(canonID, type, min_args, max_args); // Scr_GetCommonFunction
 		}
 		auto index = 8ll * count;
-		*type = ((INT32*)REBASE(0x3347C00, 0x313A3A0))[index + 6];
-		*min_args = ((INT32*)REBASE(0x3347C00, 0x313A3A0))[index + 1];
-		*max_args = ((INT32*)REBASE(0x3347C00, 0x313A3A0))[index + 2];
-		result = *(INT64*)(&((INT32*)REBASE(0x3347C00, 0x313A3A0))[index + 4]);
+		*type = ((INT32*)REBASE(0x32C8C00, 0x313A3A0))[index + 6];
+		*min_args = ((INT32*)REBASE(0x32C8C00, 0x313A3A0))[index + 1];
+		*max_args = ((INT32*)REBASE(0x32C8C00, 0x313A3A0))[index + 2];
+		result = *(INT64*)(&((INT32*)REBASE(0x32C8C00, 0x313A3A0))[index + 4]);
 	}
 	return result;
 }

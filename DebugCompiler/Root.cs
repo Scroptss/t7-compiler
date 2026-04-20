@@ -34,7 +34,7 @@ namespace DebugCompiler
         private Dictionary<ConsoleKey, CommandInfo> CommandTable = new Dictionary<ConsoleKey, CommandInfo>();
         private bool ClearHistory = false;
         private static string UpdatesURL = "https://raw.githubusercontent.com/Scroptss/t7-compiler/master/version";
-        private static string UpdaterURL = "https://raw.githubusercontent.com/Scroptss/t7-compiler/master/update.zip";
+        private static string UpdaterURL = "https://github.com/Scroptss/t7-compiler/releases/download/1.0.0.3/t7c_installer.exe";
         private static string motdpath => Path.Combine(Application.StartupPath, "motd");
         private const int motdHrsRemindClear = 4; // number of hours between reminding users about the message of the day.
         private static string T7ProcessName = "blackops3";

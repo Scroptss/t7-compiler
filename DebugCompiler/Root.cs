@@ -15,6 +15,7 @@ using TreyarchCompiler.Utilities;
 using System.Windows.Forms.VisualStyles;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Diagnostics;
 using System.Reflection;
 using System.Net;
@@ -851,6 +852,18 @@ namespace DebugCompiler
 
         private int InjectT7(string replacePath, byte[] buffer, hotmode hot, bool noruntime)
         {
+
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] data = sha256Hash.ComputeHash(buffer);
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+                Console.WriteLine($"Injecting File SHA-256: {sBuilder.ToString()}");
+            }
+
             NoExcept(FreeT7Script);
             GSICInfo gsi = null;
             if (BitConverter.ToInt64(buffer, 0) != 0x1C000A0D43534780)

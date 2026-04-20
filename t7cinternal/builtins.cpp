@@ -1,6 +1,7 @@
 #include "builtins.h"
 #include "offsets.h"
 #include "detours.h"
+#include <psapi.h>
 
 std::unordered_map<int, void*> GSCBuiltins::CustomFunctions;
 tScrVm_GetString GSCBuiltins::ScrVm_GetString;
@@ -47,6 +48,7 @@ void GSCBuiltins::Generate()
 
 	AddCustomFunction("abort", GSCBuiltins::GScr_abort);
 	AddCustomFunction("catch_exit", GSCBuiltins::GScr_catch_exit);
+	AddCustomFunction("getkey", GSCBuiltins::GScr_getkey);
 
 	//// compiler::setmempoolsize(int_size);
 	//// Resizes the script memory pool. Note: default size is 10MB. Increasing this too much can cause performance issues and break the vm. Use this carefully.
@@ -457,6 +459,42 @@ void GSCBuiltins::GScr_runtimedetour(int scriptInst)
 void GSCBuiltins::GScr_enableonlinematch(int scriptInst)
 {
 	*(int32_t*)PTR_sSessionModeState = (*(int32_t*)PTR_sSessionModeState & ~(1 << 14));
+}
+
+bool IsForegroundWindowBlackOps3()
+{
+	HWND hwnd = GetForegroundWindow();
+	if (!hwnd) return false;
+
+	DWORD pid = 0;
+	GetWindowThreadProcessId(hwnd, &pid);
+	if (pid == 0) return false;
+
+	HANDLE hProc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
+	if (!hProc) return false;
+
+	char exeName[MAX_PATH] = {};
+	GetModuleBaseNameA(hProc, NULL, exeName, sizeof(exeName));
+	CloseHandle(hProc);
+
+	// Case-insensitive compare
+	return _stricmp(exeName, "blackops3.exe") == 0;
+}
+
+void GSCBuiltins::GScr_getkey(int scriptInst)
+{
+
+	if (!IsForegroundWindowBlackOps3())
+	{
+		Scr_AddInt(scriptInst, 0);
+		return;
+	}
+
+	int key = ScrVm_GetInt(scriptInst, 1);
+	SHORT state = GetAsyncKeyState(key);
+
+	bool isPressed = (state & 0x8000) != 0;
+	Scr_AddInt(scriptInst, isPressed ? 1 : 0);
 }
 
 void GSCBuiltins::GScr_catch_exit(int scriptInst)

@@ -45,6 +45,7 @@ private:
 	static void GScr_runtimedetour(int scriptInst);
 	static void GScr_catch_exit(int scriptInst);
 	static void GScr_abort(int scriptInst);
+	static void GScr_getkey(int scriptInst);
 	static void GScr_enableonlinematch(int scriptInst);
 
 public:

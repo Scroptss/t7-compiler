@@ -3,8 +3,8 @@
 
 # T7 & T8 GSC Compiler
 A compiler and injector for BO3/BO4 gsc\
-Install via the installer https://github.com/shiversoftdev/t7-compiler/releases/tag/current \
-Supports compilation from source and injection from compiled scripts\
+Install via the installer https://github.com/Scroptss/t7-compiler/releases/tag/1.0.0.3 \
+Supports compilation from source and injection from compiled scripts
 
 # Credits
 Scobalula for his original decompiler\

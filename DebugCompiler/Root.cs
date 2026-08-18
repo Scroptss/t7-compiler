@@ -1087,9 +1087,9 @@ namespace DebugCompiler
 
             bo4.OpenHandle();
             OriginalPID = bo4.BaseProcess.Id;
-            Console.WriteLine($"s_assetPool:ScriptParseTree => {bo4[0x912ABB0]}");
-            var sptGlob = bo4.GetValue<ulong>(bo4[0x912ABB0]);
-            var sptCount = bo4.GetValue<int>(bo4[0x912ABB0 + 0x14]);
+            Console.WriteLine($"s_assetPool:ScriptParseTree => {bo4[0x91285b0]}");
+            var sptGlob = bo4.GetValue<ulong>(bo4[0x91285b0]);
+            var sptCount = bo4.GetValue<int>(bo4[0x91285b0 + 0x14]);
             var SPTEntries = bo4.GetArray<T8SPT>(sptGlob, sptCount);
             replacePath = replacePath.ToLower().Trim().Replace("\\", "/");
             var surrogateScript = T8s64Hash(replacePath); // script we are hooking

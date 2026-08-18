@@ -34,7 +34,7 @@ namespace DebugCompiler
         private Dictionary<ConsoleKey, CommandInfo> CommandTable = new Dictionary<ConsoleKey, CommandInfo>();
         private bool ClearHistory = false;
         private static string UpdatesURL = "https://raw.githubusercontent.com/Scroptss/t7-compiler/master/version";
-        private static string UpdaterURL = "https://github.com/Scroptss/t7-compiler/releases/download/1.0.0.3/t7c_installer.exe";
+        private static string UpdaterURL = "https://github.com/Scroptss/t7-compiler/releases/download/1.0.0.5/t7c_installer.exe";
         private static string motdpath => Path.Combine(Application.StartupPath, "motd");
         private const int motdHrsRemindClear = 4; // number of hours between reminding users about the message of the day.
         private static string T7ProcessName = "blackops3";
@@ -52,7 +52,7 @@ namespace DebugCompiler
             fi = new FileInfo(motdpath);
             fi.LastWriteTimeUtc = DateTime.Now;
             Console.WriteLine($"Message of the Day:\n\tEver wanted to shoot your friend with a thundergun?\n\tEver wondered what would happen if you could 1v1 with the origins staffs?\n\tNow you can! Zombie Blood Rush is a Black Ops III zombies mod that lets you kill other players.\n\tYour points are your health. Kill other players and zombies to race to 100K points. Play now: https://steamcommunity.com/sharedfiles/filedetails/?id=2696008055\n\n");
-            System.Threading.Thread.Sleep(4000);
+            //System.Threading.Thread.Sleep(4000);
         }
         static int Main(string[] args)
         {
@@ -84,7 +84,15 @@ namespace DebugCompiler
                             client.DownloadFile(UpdaterURL, filename);
                         }
                         Console.WriteLine("Installing update... Please wait for a confirmation window to pop up before attempting to inject again...");
-                        Process.Start(filename, "--install_silent");
+
+                        int pid = Process.GetCurrentProcess().Id;
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = filename,
+                            Arguments = $"--install_silent --wait-pid {pid}",
+                            UseShellExecute = true
+                        });
+
                         return 0;
                     }
                 } catch

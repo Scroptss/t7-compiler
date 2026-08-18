@@ -50,9 +50,39 @@ namespace t7c_installer
                     switch (args[0].Trim().ToLower())
                     {
                         case "--install_silent":
-                            InstallUpdate();
-                            CErrorDialog.Show("Compiler Updated!", $"Your t7 compiler installation was just updated. You may proceed with your compilation action.", true);
-                            return;
+                            {
+                                int? waitPid = GetWaitPid(args);
+
+                                if (waitPid.HasValue)
+                                {
+                                    try
+                                    {
+                                        using (Process process = Process.GetProcessById(waitPid.Value))
+                                        {
+                                            if (!process.HasExited)
+                                            {
+                                                process.WaitForExit();
+                                            }
+                                        }
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                    }
+                                    catch (InvalidOperationException)
+                                    {
+                                    }
+                                }
+
+                                InstallUpdate();
+
+                                CErrorDialog.Show(
+                                    "Compiler Updated!",
+                                    "Your t7 compiler installation was just updated. You may proceed with your compilation action.",
+                                    true
+                                );
+
+                                return;
+                            }
 
                         case "--deploy":
                             string compilerDirectory = args[1];
@@ -163,6 +193,20 @@ namespace t7c_installer
                 client.DownloadFile(PackageURL, UpdateTempFilename);
             }
             ZipFile.ExtractToDirectory(UpdateTempFilename, UpdateTempDirname);
+        }
+
+        private static int? GetWaitPid(string[] args)
+        {
+            for (int i = 0; i < args.Length - 1; i++)
+            {
+                if (args[i].Equals("--wait-pid", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (int.TryParse(args[i + 1], out int pid))
+                        return pid;
+                }
+            }
+
+            return null;
         }
 
         public static void InstallUpdate()
